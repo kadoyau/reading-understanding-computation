@@ -50,7 +50,6 @@ class Multiply
 	end
 end
 
-# 簡約する
 class Add
 	def reduce
 		if left.reducible?
@@ -76,13 +75,6 @@ class Multiply
 	end
 end
 
-expression =
-Add.new(
-	Multiply.new(Number.new(1), Number.new(2)),
-	Multiply.new(Number.new(3), Number.new(4))
-)
-
-# 抽象機械
 class Machine < Struct.new(:expression)
 	def step
 		self.expression = expression.reduce
@@ -93,5 +85,43 @@ class Machine < Struct.new(:expression)
 			step
 		end
 		puts expression.inspect
+	end
+end
+
+class Boolean < Struct.new(:value)
+	def to_s
+		value.to_s
+	end
+
+	def inspect
+		"<<#{self}>>"
+	end
+
+	def reducible?
+		false
+	end
+end
+
+class LessThan < Struct.new(:left, :right)
+	def to_s
+		"#{left} < #{right}"
+	end
+
+	def inspect
+		"#{self}"
+	end
+
+	def reducible?
+		true
+	end
+
+	def reduce
+		if left.reducible?
+			LessThan.new(left.reduce, right)
+		elsif right.reducible?
+			LessThan.new(left, right.reduce)
+		else
+			Boolean.new(left.value < right.value)
+		end
 	end
 end
