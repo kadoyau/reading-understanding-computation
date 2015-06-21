@@ -62,7 +62,6 @@ class Add
 	end
 end
 
-
 class Multiply
 	def reduce
 		if left.reducible?
@@ -123,5 +122,76 @@ class LessThan < Struct.new(:left, :right)
 		else
 			Boolean.new(left.value < right.value)
 		end
+	end
+end
+
+# p.29
+class Variable < Struct.new(:name)
+  def to_s
+    name.to_s
+  end
+
+  def inspect
+    "#{self}"
+  end
+
+  def reducible?
+    true
+  end
+end
+
+class Variable
+  def reduce(environment)
+    environment[name]
+  end
+end
+
+class Add
+	def reduce(environment)
+		if left.reducible?
+			Add.new(left.reduce(environment), right)
+		elsif right.reducible?
+			Add.new(left, right.reduce(environment))
+		else
+			Number.new(left.value + right.value)
+		end
+	end
+end
+
+class Multiply
+	def reduce(environment)
+		if left.reducible?
+			Multiply.new(left.reduce(environment), right)
+		elsif right.reducible?
+			Multiply.new(left, right.reduce(environment))
+		else
+			Number.new(left.value * right.value)
+		end
+	end
+end
+
+class LessThan
+	def reduce(environment)
+		if left.reducible?
+			LessThan.new(left.reduce(environment), right)
+		elsif right.reducible?
+			LessThan.new(left, right.reduce(environment))
+		else
+			Boolean.new(left.value < right.value)
+		end
+	end
+end
+
+Object.send(:remove_const, :Machine) #過去のMachineを消す
+class Machine < Struct.new(:expression, :environment)
+	def step
+		self.expression = expression.reduce(environment)
+	end
+	def run
+		while expression.reducible?
+			puts expression.inspect
+			step
+		end
+		puts expression.inspect
 	end
 end
