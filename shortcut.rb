@@ -1,11 +1,11 @@
+# 2.3.1.1 式
 class Number < Struct.new(:value)
 end
 class Add < Struct.new(:left, :right)
 end
 class Multiply < Struct.new(:left, :right)
 end
-Add.new(Multiply.new(Number.new(1), Number.new(2)),
-Multiply.new(Number.new(3), Number.new(4)))
+Add.new(Multiply.new(Number.new(1), Number.new(2)), Multiply.new(Number.new(3), Number.new(4)))
 
 class Number
 	def to_s
@@ -34,6 +34,8 @@ class Multiply
 	end
 end
 
+Add.new(Multiply.new(Number.new(1), Number.new(2)), Multiply.new(Number.new(3), Number.new(4))).inspect
+
 class Number
 	def reducible?
 		false
@@ -49,6 +51,9 @@ class Multiply
 		true
 	end
 end
+
+Number.new(1).reducible?
+Add.new(Number.new(1), Number.new(2)).reducible?
 
 class Add
 	def reduce
@@ -195,3 +200,5 @@ class Machine < Struct.new(:expression, :environment)
 		puts expression.inspect
 	end
 end
+
+# 2.3.1.2 文
