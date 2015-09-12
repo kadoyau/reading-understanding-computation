@@ -1,11 +1,11 @@
-### 書籍：[Tom Stuart "アンダースタンディング コンピュテーション"](http://www.oreilly.co.jp/books/9784873116976/)読書ログリポジトリ
+### 書籍：[Tom Stuart "アンダースタンディング コンピュテーション"](http://www.oreilly.co.jp/books/9784873116976/) 読書ログリポジトリ
 - shortcut.rb
   - 書籍内で実装している意味論のコード
 - probrem.rb
   - 実装した意味論を試すための問題（文とか式とか）のコード
 
 ### 実行環境
-- irbではなくpryを使う（ハイライトされるから）．
+- irbではなくpryを使う（syntax highlightしてくれるから）．
   - irbの導入については [Rubyistよ、irbを捨ててPryを使おう - TIM Labs](http://labs.timedia.co.jp/2011/12/rubyist-should-use-pry.html) を参照のこと．
 - pryはsyntax highlightとかを実現するために（IRBと違って）単純にinspect()が呼ばれない．
 - 代わりにpretty_inspectが呼ばれる．なので，明示的にinspect()を呼ぶことにする．
