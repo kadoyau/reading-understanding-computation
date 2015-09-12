@@ -198,3 +198,57 @@ class Machine < Struct.new(:expression, :environment)
 end
 
 # 2.3.1.2 文
+class DoNothing
+	def to_s
+		'do-nothing'
+	end
+
+	def inspect
+		"#{self}"
+	end
+
+	def ==(other_statement)
+		other_statement.instance_of?(DoNothing)
+	end
+
+	def reducible?
+		false
+	end
+end
+
+class Assign < Struct.new(:name, :expression)
+	def to_s
+		"#{name} = #{expression}"
+	end
+
+	def inspect
+		"#{self}"
+	end
+
+	def reducible?
+		true
+	end
+
+	def reduce(environment)
+		if expression.reducible?
+			[Assign.new(name, expression.reduce(environment)), environment]
+		else
+			[DoNothing.new, environment.merge({ name => expression })]
+		end
+	end
+end
+
+Object.send(:remove_const, :Machine) #過去のMachineを消す
+class Machine < Struct.new(:statement, :environment)
+	def step
+		self.statement, self.environment = statement.reduce(environment)
+	end
+
+	def run
+		while statement.reducible?
+			puts "#{statement}, #{environment}"
+			step
+		end
+		puts "#{statement}, #{environment}"
+	end
+end
