@@ -34,8 +34,6 @@ class Multiply
 	end
 end
 
-Add.new(Multiply.new(Number.new(1), Number.new(2)), Multiply.new(Number.new(3), Number.new(4))).inspect
-
 class Number
 	def reducible?
 		false
@@ -51,9 +49,6 @@ class Multiply
 		true
 	end
 end
-
-Number.new(1).reducible?
-Add.new(Number.new(1), Number.new(2)).reducible?
 
 class Add
 	def reduce
@@ -125,12 +120,13 @@ class LessThan < Struct.new(:left, :right)
 		elsif right.reducible?
 			LessThan.new(left, right.reduce)
 		else
+			# trueかfalseかの表示はrubyの < 演算子の結果に任せる
 			Boolean.new(left.value < right.value)
 		end
 	end
 end
 
-# p.29
+# p.29 変数を導入する
 class Variable < Struct.new(:name)
   def to_s
     name.to_s

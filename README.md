@@ -8,6 +8,9 @@ Pryはsyntax highlightとかを実現するために（IRBと違って）単純�
 
 なので，明示的にinspect()を呼ぶことにする．
 
+### 補足
+`#inspect' は自分のオブジェクトを展開するので `to_s` メッセージが送られます．
+
 #### 蛇足
 Pry::ColorPrinter.ppが呼ばれていて，こいつが余計な整形している
 - [pry/color_printer.rb at 3156f10d5569c5604576e6c2ea11fee2af6cf4e5 · pry/pry](https://github.com/pry/pry/blob/3156f10d5569c5604576e6c2ea11fee2af6cf4e5/lib/pry/color_printer.rb)
